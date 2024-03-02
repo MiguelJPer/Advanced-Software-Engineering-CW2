@@ -1,0 +1,69 @@
+public class Flight {
+    private String destinationAirport;
+    private String carrier;
+    private int capacity;
+    private double maxBaggageWeight;
+    private double maxBaggageVolume;
+
+    // Constructor
+    public Flight(String destinationAirport, String carrier, int capacity, double maxBaggageWeight, double maxBaggageVolume) {
+        this.destinationAirport = destinationAirport;
+        this.carrier = carrier;
+        this.capacity = capacity;
+        this.maxBaggageWeight = maxBaggageWeight;
+        this.maxBaggageVolume = maxBaggageVolume;
+    }
+
+    // Getters and setters
+    public String getDestinationAirport() {
+        return destinationAirport;
+    }
+
+    public void setDestinationAirport(String destinationAirport) {
+        this.destinationAirport = destinationAirport;
+    }
+
+    public String getCarrier() {
+        return carrier;
+    }
+
+    public void setCarrier(String carrier) {
+        this.carrier = carrier;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public double getMaxBaggageWeight() {
+        return maxBaggageWeight;
+    }
+
+    public void setMaxBaggageWeight(double maxBaggageWeight) {
+        this.maxBaggageWeight = maxBaggageWeight;
+    }
+
+    public double getMaxBaggageVolume() {
+        return maxBaggageVolume;
+    }
+
+    public void setMaxBaggageVolume(double maxBaggageVolume) {
+        this.maxBaggageVolume = maxBaggageVolume;
+    }
+
+    // toString method for debugging or display purposes
+    @Override
+    public String toString() {
+        return "Flight{" +
+                "destinationAirport='" + destinationAirport + '\'' +
+                ", carrier='" + carrier + '\'' +
+                ", capacity=" + capacity +
+                ", maxBaggageWeight=" + maxBaggageWeight +
+                ", maxBaggageVolume=" + maxBaggageVolume +
+                '}';
+    }
+}
