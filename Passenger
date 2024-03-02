@@ -10,7 +10,7 @@ public class Passenger {
     private double baggageWeight;
     private double baggageVolume;
 
-    // 构造函数
+    
     public Passenger(String bookingReferenceCode, String name, String flightCode, boolean checkedIn) {
         this.bookingReferenceCode = bookingReferenceCode;
         this.name = name;
@@ -18,7 +18,7 @@ public class Passenger {
         this.checkedIn = checkedIn;
     }
 
-    // Getter 和 Setter 方法
+    // Getter and Setter method
     public String getBookingReferenceCode() {
         return bookingReferenceCode;
     }
@@ -67,7 +67,7 @@ public class Passenger {
         this.baggageVolume = baggageVolume;
     }
 
-    // toString 方法，用于打印乘客信息
+    // toString method, print passenger's information
     @Override
     public String toString() {
         return "Passenger{" +
