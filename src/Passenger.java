@@ -1,6 +1,4 @@
-package advanced;
-import java.util.ArrayList;
-import java.util.List;
+package src;
 
 public class Passenger {
     private String bookingReferenceCode;
