@@ -3,12 +3,14 @@ package src;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.geometry.Insets;
 import src.DataStructure.Flight;
 import src.DataStructure.Passenger;
 
@@ -308,13 +310,21 @@ public class PassengerQueryUI extends Application {
             launchFlightReportGeneratorUI();
         });
 
-        VBox root = new VBox(hbox, confirmButton, exitButton);
+        // Setting the positions of the buttons
+        HBox bottomButtons = new HBox(mainMenuButton, exitButton);
+        bottomButtons.setSpacing(20);
+        bottomButtons.setAlignment(Pos.CENTER);
+        VBox root = new VBox(hbox, confirmButton, returnButton, bottomButtons);
         root.setSpacing(20);
+        root.setPadding(new Insets(20)); // Add padding to the root VBox
         Scene scene = new Scene(root, 600, 400);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Passenger and Luggage Information");
         primaryStage.show();
     }
+
+
+
 
     private void savePassengerAndLuggage(Passenger passenger, double length, double width, double height, double weight, double volume, double excessFee) {
         try {
