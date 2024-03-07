@@ -29,6 +29,19 @@ public class PassengerQueryUI extends Application {
     private Flight currentFlight;
     private Map<String, FlightReport> flightReports;
 
+
+    public static class InvalidInputException extends Exception {
+        public InvalidInputException(String message) {
+            super(message);
+        }
+    }
+
+    public static class PassengerNotFoundException extends Exception {
+        public PassengerNotFoundException(String message) {
+            super(message);
+        }
+    }
+
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -113,18 +126,21 @@ public class PassengerQueryUI extends Application {
         }
     }
 
-
     private void executeQuery(String query) {
-        List<Passenger> queryResult = passengerList.stream()
-                .filter(passenger -> passenger.getName().equalsIgnoreCase(query)
-                        || passenger.getBookingReferenceCode().equalsIgnoreCase(query))
-                .collect(Collectors.toList());
+        try {
+            List<Passenger> queryResult = passengerList.stream()
+                    .filter(passenger -> passenger.getName().equalsIgnoreCase(query)
+                            || passenger.getBookingReferenceCode().equalsIgnoreCase(query))
+                    .collect(Collectors.toList());
 
-        if (queryResult.isEmpty()) {
-            showInputErrorAlert();
-        } else {
-            currentPassenger = queryResult.get(0); // Assume only one passenger for simplicity
-            showQueryResult(currentPassenger);
+            if (queryResult.isEmpty()) {
+                throw new PassengerNotFoundException("Passenger with name or booking reference not found: " + query);
+            } else {
+                currentPassenger = queryResult.get(0); // Assume only one passenger for simplicity
+                showQueryResult(currentPassenger);
+            }
+        } catch (PassengerNotFoundException e) {
+            showErrorAlert(e.getMessage());
         }
     }
 
@@ -195,52 +211,57 @@ public class PassengerQueryUI extends Application {
     }
 
     private void saveLuggageInfo(Passenger passenger, String length, String width, String height, String weight) throws IOException {
-        System.out.println("Length: " + length);
-        System.out.println("Width: " + width);
-        System.out.println("Height: " + height);
-        System.out.println("Weight: " + weight);
+        try {
+            System.out.println("Length: " + length);
+            System.out.println("Width: " + width);
+            System.out.println("Height: " + height);
+            System.out.println("Weight: " + weight);
 
-        double luggageLength = Double.parseDouble(length);
-        double luggageWidth = Double.parseDouble(width);
-        double luggageHeight = Double.parseDouble(height);
-        double luggageWeight = Double.parseDouble(weight);
+            double luggageLength = Double.parseDouble(length);
+            double luggageWidth = Double.parseDouble(width);
+            double luggageHeight = Double.parseDouble(height);
+            double luggageWeight = Double.parseDouble(weight);
 
-        // Calculate luggage volume
-        double luggageVolume = luggageLength * luggageWidth * luggageHeight;
+            // Calculate luggage volume
+            double luggageVolume = luggageLength * luggageWidth * luggageHeight;
 
-        System.out.println("Luggage Volume: " + luggageVolume);
+            System.out.println("Luggage Volume: " + luggageVolume);
 
-        List<Flight> flightList = FlightDataHandler.flightListGetter();
+            List<Flight> flightList = FlightDataHandler.flightListGetter();
 
-        System.out.println(flightList);
+            System.out.println(flightList);
 
-        // Find the flight associated with the passenger
-        currentFlight = flightList.stream()
-                .filter(flight -> flight.getFlightCode().equals(passenger.getFlightCode()))
-                .findFirst()
-                .orElse(null);
+            // Find the flight associated with the passenger
+            currentFlight = flightList.stream()
+                    .filter(flight -> flight.getFlightCode().equals(passenger.getFlightCode()))
+                    .findFirst()
+                    .orElse(null);
 
-        System.out.println("Current Flight: " + currentFlight);
+            System.out.println("Current Flight: " + currentFlight);
 
-        // Calculate max luggage weight for the flight
-        double maxLuggageWeight = currentFlight.getMaxLuggageWeight() / currentFlight.getMaxCapacity();
+            // Calculate max luggage weight for the flight
+            double maxLuggageWeight = currentFlight.getMaxLuggageWeight() / currentFlight.getMaxCapacity();
 
-        System.out.println("Max Luggage Weight: " + maxLuggageWeight);
+            System.out.println("Max Luggage Weight: " + maxLuggageWeight);
 
-        // Check if luggage is excess
-        double excessWeight = Math.max(0, luggageWeight - maxLuggageWeight);
+            // Check if luggage is excess
+            double excessWeight = Math.max(0, luggageWeight - maxLuggageWeight);
 
-        System.out.println("Excess Weight: " + excessWeight);
+            System.out.println("Excess Weight: " + excessWeight);
 
-        // Calculate excess fee
-        double excessFee = Math.round((excessWeight * currentFlight.getExcessFeePerUnitWeight()) * 100.0) / 100.0;
+            // Calculate excess fee
+            double excessFee = Math.round((excessWeight * currentFlight.getExcessFeePerUnitWeight()) * 100.0) / 100.0;
 
-        System.out.println("Excess Fee: " + excessFee);
+            System.out.println("Excess Fee: " + excessFee);
 
-        passenger.checkedInProperty().set(true);
+            passenger.checkedInProperty().set(true);
 
-        // Show luggage and excess fee info
-        showLuggageAndFeeInfo(passenger, luggageLength, luggageWidth, luggageHeight, luggageWeight, luggageVolume, excessFee);
+            // Show luggage and excess fee info
+            showLuggageAndFeeInfo(passenger, luggageLength, luggageWidth, luggageHeight, luggageWeight, luggageVolume, excessFee);
+        } catch (NumberFormatException e) {
+            showErrorAlert("Invalid luggage information. Please enter valid numeric values.");
+        }
+
     }
 
     private void showLuggageAndFeeInfo(Passenger passenger, double length, double width, double height, double weight, double volume, double excessFee) {
@@ -322,6 +343,14 @@ public class PassengerQueryUI extends Application {
         alert.setTitle("Input Error");
         alert.setHeaderText(null);
         alert.setContentText("Invalid input. Please enter valid values.");
+        alert.showAndWait();
+    }
+
+    private void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
         alert.showAndWait();
     }
 
