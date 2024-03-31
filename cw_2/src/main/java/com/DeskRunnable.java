@@ -12,8 +12,9 @@ public class DeskRunnable implements Runnable {
     private Desk desk;
     private BoardingPassenger boardingPassenger;
 
-    public DeskRunnable(PassengerAtCounter passenger) {
+    public DeskRunnable(PassengerAtCounter passenger, Desk desk) {
         this.passengerAtCounter = passenger;
+        this.desk = desk;
     }
 
     public void run() {
