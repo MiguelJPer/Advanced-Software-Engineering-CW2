@@ -1,7 +1,9 @@
+package com.cw_2;
+
 public class SimulationController {
     public static void main(String[] args) {
         QueueSystem queueSystem = new QueueSystem();
-        CheckInDesk checkInDesk = new CheckInDesk(queueSystem);
+        DeskRunnable checkInDesk = new DeskRunnable(queueSystem);
         Thread deskThread = new Thread(checkInDesk);
         deskThread.start();
 

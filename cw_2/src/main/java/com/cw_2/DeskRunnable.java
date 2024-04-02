@@ -1,4 +1,4 @@
-package com;
+package com.cw_2;
 
 import org.w3c.dom.css.Counter;
 
@@ -18,16 +18,16 @@ public class DeskRunnable implements Runnable {
     }
 
     public void run() {
-        Passenger passenger = passengerAtCounter.get();
-        while (desk.IsEmpty() == false) {
+        while (!passengerAtCounter.getDone()) { // while producing
             try {
-                wait();
+                Thread.sleep(100);
             } catch (InterruptedException e) {
             }
+            Passenger passenger = passengerAtCounter.get();
+            desk.NewPassenger(passengerAtCounter.get());
+            // Set desk UI to desk.CheckInDetails();
+            desk.CheckInPassenger();
+            boardingPassenger.put(passenger);
         }
-        desk.NewPassenger(passenger);
-        // Set desk UI to desk.CheckInDetails();
-        desk.CheckInPassenger();
-        boardingPassenger.put(passenger);
     }
 }

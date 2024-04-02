@@ -1,3 +1,4 @@
+package com.cw_2;
 
 public class Passenger {
     private String id;
