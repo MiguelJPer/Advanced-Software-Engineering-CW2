@@ -47,6 +47,8 @@
     &quot;Application.PassengerDataHandler.executor&quot;: &quot;Run&quot;,
     &quot;Application.PassengerDataUI.executor&quot;: &quot;Run&quot;,
     &quot;Application.PassengerQueryUI.executor&quot;: &quot;Run&quot;,
+    &quot;Application.SimulationTest.executor&quot;: &quot;Run&quot;,
+    &quot;Application.src.PassengerDataHandler.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
@@ -57,14 +59,18 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.src.PassengerDataHandler">
-    <configuration name="FlightDataGenerator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="src.util.FlightDataGenerator" />
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\program\HW_PG_Project\F21AS\Advanced-Software-Engineering\Datasets" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.CheckInDeskTest">
+    <configuration name="CheckInDeskTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Test.CheckInDeskTest" />
       <module name="Advanced-Software-Engineering-main" />
-      <option name="VM_PARAMETERS" value="--module-path D:\Install\JAVA\sdk\javafx-sdk-21.0.2\lib --add-modules javafx.controls,javafx.fxml " />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="src.util.*" />
+          <option name="PATTERN" value="Test.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -73,12 +79,12 @@
       </method>
     </configuration>
     <configuration name="FlightReportGeneratorUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="src.FlightReportGeneratorUI" />
+      <option name="MAIN_CLASS_NAME" value="src.view.FlightReportGeneratorUI" />
       <module name="Advanced-Software-Engineering-main" />
       <option name="VM_PARAMETERS" value="--module-path D:\Install\JAVA\sdk\javafx-sdk-21.0.2\lib --add-modules javafx.controls,javafx.fxml " />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="src.DataStructure.*" />
+          <option name="PATTERN" value="src.model.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -86,12 +92,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PassengerDataGenerator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="src.util.PassengerDataGenerator" />
+    <configuration name="PassengerDataUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="src.view.PassengerDataUI" />
       <module name="Advanced-Software-Engineering-main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="src.util.*" />
+          <option name="PATTERN" value="src.view.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -100,12 +106,12 @@
       </method>
     </configuration>
     <configuration name="PassengerQueryUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="src.PassengerQueryUI" />
+      <option name="MAIN_CLASS_NAME" value="src.view.PassengerQueryUI" />
       <module name="Advanced-Software-Engineering-main" />
       <option name="VM_PARAMETERS" value="--module-path D:\Install\JAVA\sdk\javafx-sdk-21.0.2\lib --add-modules javafx.controls,javafx.fxml " />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="src.DataStructure.*" />
+          <option name="PATTERN" value="src.model.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -113,12 +119,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="src.PassengerDataHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="src.PassengerDataHandler" />
+    <configuration name="SimulationTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Test.SimulationTest" />
       <module name="Advanced-Software-Engineering-main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="src.*" />
+          <option name="PATTERN" value="Test.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -127,19 +133,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.src.PassengerDataHandler" />
-      <item itemvalue="Application.FlightDataGenerator" />
+      <item itemvalue="Application.CheckInDeskTest" />
+      <item itemvalue="Application.SimulationTest" />
+      <item itemvalue="Application.PassengerDataUI" />
       <item itemvalue="Application.FlightReportGeneratorUI" />
-      <item itemvalue="Application.PassengerDataGenerator" />
       <item itemvalue="Application.PassengerQueryUI" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.src.PassengerDataHandler" />
+        <item itemvalue="Application.CheckInDeskTest" />
+        <item itemvalue="Application.SimulationTest" />
         <item itemvalue="Application.PassengerQueryUI" />
+        <item itemvalue="Application.PassengerDataUI" />
         <item itemvalue="Application.FlightReportGeneratorUI" />
-        <item itemvalue="Application.FlightDataGenerator" />
-        <item itemvalue="Application.PassengerDataGenerator" />
       </list>
     </recent_temporary>
   </component>
