@@ -1,80 +1,51 @@
 package src.main.java.com.airport_simulation.util;
+import src.main.java.com.airport_simulation.data_structure.Flight;
+import src.main.java.com.airport_simulation.util.Airline;
 
-import java.io.*;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class FlightDataGenerator {
+    private static final String[] destinations = {"Beijing", "New York", "London", "Dubai", "Tokyo"};
 
     public static void main(String[] args) {
-        generateFlightDataFromBookingList();
-    }
+        List<Airline> airlines = new ArrayList<>();
+        airlines.add(new Airline("American Airlines", 30, 100.0));
+        airlines.add(new Airline("United Airlines", 25, 150.0));
+        airlines.add(new Airline("British Airways", 20, 200.0));
+        airlines.add(new Airline("Emirates", 35, 250.0));
+        airlines.add(new Airline("Qatar Airways", 40, 300.0));
 
-    public static void generateFlightDataFromBookingList() {
-        List<String> flightCodes = readFlightCodesFromBookingList("resource/flightList.csv");
-        if (flightCodes == null) {
-            System.err.println("Failed to read flight codes from booking list.");
-            return;
+        List<Flight> flights = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            Airline airline = airlines.get(new Random().nextInt(airlines.size()));
+            String flightNumber = generateFlightNumber();
+            String destination = destinations[new Random().nextInt(destinations.length)];
+            int luggageCapacity = 1000 + new Random().nextInt(1000); // 假定行李容量为1000至2000之间
+
+            flights.add(new Flight(airline.getName(), airline.getFreeLuggageAllowance(), airline.getExcessLuggageCharge(), flightNumber, destination, luggageCapacity));
         }
 
-        generateFlightData(flightCodes);
+        writeFlightsToCsv(flights);
+        System.out.println("Flight data has been generated and saved to flights.csv");
     }
 
-    public static List<String> readFlightCodesFromBookingList(String filePath) {
-        List<String> flightCodes = new ArrayList<>();
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(filePath));
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length >= 3) { // Ensure there are at least three columns
-                    flightCodes.add(parts[2]); // Add flightCode from the third column
-                }
-            }
-            br.close();
-            return flightCodes;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public static void generateFlightData(List<String> flightCodes) {
+    private static String generateFlightNumber() {
         Random random = new Random();
-        try {
-            FileWriter fw = new FileWriter("resource/flightList.csv");
-            BufferedWriter bw = new BufferedWriter(fw);
+        return (char) ('A' + random.nextInt(26)) + "" + (char) ('A' + random.nextInt(26)) + String.format("%03d", random.nextInt(1000));
+    }
 
-            for (String flightCode : flightCodes) {
-                String airport = generateRandomAirport();
-                String airline = generateRandomAirline();
-                double excessFeePerUnitWeight = random.nextDouble() * 100;
-                int maxCapacity = random.nextInt(300) + 100; // Random capacity between 100 and 400
-                double maxLuggageWeight = random.nextDouble() * 200;
-                double maxLuggageVolume = random.nextDouble() * 500;
-
-                bw.write(flightCode + "," + airport + "," + airline + "," + excessFeePerUnitWeight + "," +
-                        maxCapacity + "," + maxLuggageWeight + "," + maxLuggageVolume);
-                bw.newLine();
+    private static void writeFlightsToCsv(List<Flight> flights) {
+        try (FileWriter writer = new FileWriter("src/main/resources/com/airport_simulation/dataset/flights.csv")) {
+            writer.append("Airline Name,Free Luggage Allowance,Excess Luggage Charge,Flight Number,Destination,Luggage Capacity,Checked In Passengers,Carried Luggage Weight\n");
+            for (Flight flight : flights) {
+                writer.append(String.format("%s,%d,%.2f,%s,%s,%d,%d,%.2f\n", flight.getAirlineName(), flight.getFreeLuggageAllowance(), flight.getExcessLuggageCharge(), flight.getFlightCode(), flight.getDestination(), flight.getLuggageCapacity(), flight.getCheckedInPassengers(), flight.getCarriedLuggageWeight()));
             }
-
-            bw.close();
-            System.out.println("Flight data generated successfully.");
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static String generateRandomAirport() {
-        String[] airports = {"JFK", "LAX", "SFO", "ORD", "ATL", "LHR", "CDG", "DXB", "HND", "PEK"};
-        Random random = new Random();
-        return airports[random.nextInt(airports.length)];
-    }
-
-    public static String generateRandomAirline() {
-        String[] airlines = {"Delta", "American Airlines", "United Airlines", "Lufthansa", "Air France", "Emirates", "British Airways", "China Southern", "Qatar Airways", "Singapore Airlines"};
-        Random random = new Random();
-        return airlines[random.nextInt(airlines.length)];
     }
 }

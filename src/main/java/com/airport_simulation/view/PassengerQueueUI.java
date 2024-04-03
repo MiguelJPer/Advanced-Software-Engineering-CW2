@@ -11,6 +11,9 @@ import src.main.java.com.airport_simulation.controller.PassengerQueueController;
 import src.main.java.com.airport_simulation.data_structure.Passenger;
 
 public class PassengerQueueUI extends Application {
+    static {
+        System.setProperty("java.util.logging.config.file", "./src/main/resources/com/airport_simulation/logging.properties");
+    }
     private PassengerQueueController controller = new PassengerQueueController();
     private ObservableList<String> passengerList = FXCollections.observableArrayList();
 

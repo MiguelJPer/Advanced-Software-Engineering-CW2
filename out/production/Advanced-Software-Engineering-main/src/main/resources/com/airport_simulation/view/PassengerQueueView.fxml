@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+
+<VBox fx:controller="src.main.java.com.airport_simulation.controller.PassengerQueueController"
+      xmlns:fx="http://javafx.com/fxml" spacing="10" padding="10">
+    <Label text="Passenger Queue"/>
+    <ListView fx:id="passengerListView"/>
+</VBox>

@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("src/main/resource/view/PassengerQueueView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/airport_simulation/view/PassengerQueueView.fxml"));
         Scene scene = new Scene(root);
         primaryStage.setTitle("Passenger Queue Simulation");
         primaryStage.setScene(scene);
