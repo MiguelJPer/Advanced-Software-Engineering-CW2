@@ -23,7 +23,14 @@ public class PassengerQueue implements Runnable {
     private List<String> flightCodes;
     private AtomicBoolean isFlightCodesLoaded = new AtomicBoolean(false);
 
+    // 原有构造函数保持不变，为了向后兼容
     public PassengerQueue() {
+        this(FXCollections.observableArrayList()); // 调用下面的新构造函数，使用空的ObservableList初始化
+    }
+
+    // 新的构造函数，接受外部传入的ObservableList<Passenger>
+    public PassengerQueue(ObservableList<Passenger> passengers) {
+        this.passengers = passengers;
         this.running = true;
         this.flightCodes = new ArrayList<>();
         logger.info("PassengerQueue 初始化");

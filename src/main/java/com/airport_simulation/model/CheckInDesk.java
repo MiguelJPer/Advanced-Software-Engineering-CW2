@@ -1,5 +1,8 @@
 package src.main.java.com.airport_simulation.model;
 
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import src.main.java.com.airport_simulation.data_structure.Flight;
 import src.main.java.com.airport_simulation.data_structure.Passenger;
 
@@ -8,15 +11,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.function.Consumer;
 
 public class CheckInDesk implements Runnable {
-    private Queue<Passenger> queue; // Shared queue with passengers
+    private ObservableList<Passenger> queue;
     private boolean isRunning;
+    private double baggageFee = 0;
     private Map<String, Flight> flightsData = new HashMap<>();
 
+    // 新增一个用于UI展示航班信息的 ObservableList
+    private ObservableList<String> flightInfoForDisplay = FXCollections.observableArrayList();
 
-    // 允许通过构造函数提供外部的flightMap，也可以不提供
-    public CheckInDesk(Queue<Passenger> queue, Map<String, Flight> flightMap) {
+
+
+    private Consumer<String> onPassengerProcessed;
+    public void setOnPassengerProcessed(Consumer<String> listener) {
+        this.onPassengerProcessed = listener;
+    }
+
+    public CheckInDesk(ObservableList<Passenger>queue, Map<String, Flight> flightMap) {
         this.queue = queue;
         this.isRunning = true;
         // 判断外部是否提供了flightMap
@@ -25,18 +38,19 @@ public class CheckInDesk implements Runnable {
         } else {
             loadFlightsData(); // 如果没有提供，那么加载内部的flightsData
         }
+        updateFlightInfoForDisplay();
     }
 
     // 可能的另一个构造函数，不需要外部提供flightMap
-    public CheckInDesk(Queue<Passenger> queue) {
+    public CheckInDesk(ObservableList<Passenger> queue) {
         this(queue, null); // 调用上面的构造函数，flightMap传入null
     }
 
     @Override
     public void run() {
         while (isRunning) {
+            processNextPassenger();
             try {
-                processNextPassenger();
                 Thread.sleep(5000); // 模拟处理一个乘客需要的时间
             } catch (InterruptedException e) {
                 System.out.println(Thread.currentThread().getName() + " interrupted.");
@@ -56,35 +70,59 @@ public class CheckInDesk implements Runnable {
                     return; // 或其他适当的异常处理
                 }
             }
-            Passenger passenger = queue.poll(); // 从队列中获取下一个乘客
+            Passenger passenger = queue.remove(0); // 从队列中获取下一个乘客
             String flightCode = passenger.getFlightCode(); // 获取乘客的航班号
             Flight flight = flightsData.get(flightCode); // 从航班数据Map中获取对应的Flight对象
 
             if (flight != null) {
-                // 计算行李费用
-                double baggageFee = 0;
+                // 处理乘客数据
                 double excessWeight = passenger.getBaggageWeight() - flight.getFreeLuggageAllowance();
                 if (excessWeight > 0) {
                     baggageFee = excessWeight * flight.getExcessLuggageCharge();
                 }
-                // 更新乘客的行李费用
-//                passenger.setBaggageFee(baggageFee);
+                if (passenger != null) {
+                    String message = passenger.getName() + " is dropping of one bag of " + passenger.getBaggageWeight() + ". A baggage fee of " + baggageFee + "is due.";
+                    // 使用Platform.runLater来确保在JavaFX主线程上调用
+                    Platform.runLater(() -> {
+                        if (onPassengerProcessed != null) {
+                            onPassengerProcessed.accept(message);
+                        }
+                    });
+                }
 
-                // 更新Flight对象的状态
-                flight.setCheckedInPassengers(flight.getCheckedInPassengers() + 1); // 增加已办理登机手续的乘客数
-                flight.setCarriedLuggageWeight(flight.getCarriedLuggageWeight() + passenger.getBaggageWeight()); // 增加已承载的行李重量
+                // 处理航班数据
+                updateFlightsData(flight, passenger);
+                updateFlightInfoForDisplay(); // 更新UI展示列表
 
-                // 写入数据
-                updateFlightsCsv();
 
-                // 输出日志或其他处理
-                System.out.println("Passenger " + passenger.getName() + " checked in. Flight: " + flightCode + ". Baggage fee: " + baggageFee);
             } else {
                 // 处理找不到对应航班的情况
                 System.out.println("No flight found for flight code: " + flightCode);
             }
-
         }
+
+    }
+
+    private void updateFlightsData(Flight flight, Passenger passenger){
+        // 更新Flight对象的状态
+        flight.setCheckedInPassengers(flight.getCheckedInPassengers() + 1); // 增加已办理登机手续的乘客数
+        flight.setCarriedLuggageWeight(flight.getCarriedLuggageWeight() + passenger.getBaggageWeight()); // 增加已承载的行李重量
+        // 写入数据
+        updateFlightsCsv();
+    }
+
+    // 在处理完每个乘客或航班数据更新后调用此方法来更新UI展示列表
+    private void updateFlightInfoForDisplay() {
+        Platform.runLater(() -> {
+            flightInfoForDisplay.clear(); // 先清空当前列表
+            for (Map.Entry<String, Flight> entry : flightsData.entrySet()) {
+                String flightCode = entry.getKey();
+                Flight flight = entry.getValue();
+                String displayText = flightCode + ": 已登机乘客数 " + flight.getCheckedInPassengers()
+                        + ", 行李总重 " + flight.getCarriedLuggageWeight();
+                flightInfoForDisplay.add(displayText); // 添加到UI展示列表
+            }
+        });
     }
 
 
@@ -133,4 +171,10 @@ public class CheckInDesk implements Runnable {
     public void stopRunning() {
         this.isRunning = false;
     }
+
+    // 提供一个公共方法以便外部访问更新后的航班信息展示列表
+    public ObservableList<String> getFlightInfoForDisplay() {
+        return flightInfoForDisplay;
+    }
+
 }

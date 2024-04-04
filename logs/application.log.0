@@ -1,40 +1,42 @@
-4月 04, 2024 1:46:00 上午 src.main.java.com.airport_simulation.model.PassengerQueue <init>
+4月 04, 2024 6:27:14 上午 com.sun.javafx.application.PlatformImpl startup
+警告: Unsupported JavaFX configuration: classes were loaded from 'unnamed module @5910e440'
+4月 04, 2024 6:27:14 上午 src.main.java.com.airport_simulation.model.PassengerQueue <init>
 信息: PassengerQueue 初始化
-4月 04, 2024 1:46:00 上午 src.main.java.com.airport_simulation.model.PassengerQueue run
+4月 04, 2024 6:27:14 上午 src.main.java.com.airport_simulation.model.PassengerQueue run
 信息: PassengerQueue 开始运行.
-4月 04, 2024 1:46:01 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
+4月 04, 2024 6:27:16 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
 信息: 开始生成随机乘客...
-4月 04, 2024 1:46:01 上午 src.main.java.com.airport_simulation.model.PassengerQueue loadFlightCodes
-信息: 开始加载航班代码...
-4月 04, 2024 1:46:01 上午 src.main.java.com.airport_simulation.model.PassengerQueue loadFlightCodes
-信息: 航班代码加载完成
-4月 04, 2024 1:46:01 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
+4月 04, 2024 6:27:16 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
 信息: 随机乘客生成完成.
-4月 04, 2024 1:46:03 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
+4月 04, 2024 6:27:17 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
 信息: 开始生成随机乘客...
-4月 04, 2024 1:46:03 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
+4月 04, 2024 6:27:17 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
 信息: 随机乘客生成完成.
-4月 04, 2024 1:46:04 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
+4月 04, 2024 6:27:19 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
 信息: 开始生成随机乘客...
-4月 04, 2024 1:46:04 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
+4月 04, 2024 6:27:19 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
 信息: 随机乘客生成完成.
-4月 04, 2024 1:46:06 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
+4月 04, 2024 6:27:21 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
 信息: 开始生成随机乘客...
-4月 04, 2024 1:46:06 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
+4月 04, 2024 6:27:21 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
 信息: 随机乘客生成完成.
-4月 04, 2024 1:46:07 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
+4月 04, 2024 6:27:23 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
 信息: 开始生成随机乘客...
-4月 04, 2024 1:46:07 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
+4月 04, 2024 6:27:23 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
 信息: 随机乘客生成完成.
-4月 04, 2024 1:46:09 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
+4月 04, 2024 6:27:24 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
 信息: 开始生成随机乘客...
-4月 04, 2024 1:46:09 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
+4月 04, 2024 6:27:24 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
 信息: 随机乘客生成完成.
-4月 04, 2024 1:46:12 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
+4月 04, 2024 6:27:25 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
 信息: 开始生成随机乘客...
-4月 04, 2024 1:46:12 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
+4月 04, 2024 6:27:25 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
 信息: 随机乘客生成完成.
-4月 04, 2024 1:46:14 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
+4月 04, 2024 6:27:27 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
 信息: 开始生成随机乘客...
-4月 04, 2024 1:46:14 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
+4月 04, 2024 6:27:27 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
+信息: 随机乘客生成完成.
+4月 04, 2024 6:27:28 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
+信息: 开始生成随机乘客...
+4月 04, 2024 6:27:28 上午 src.main.java.com.airport_simulation.model.PassengerQueue generateRandomPassenger
 信息: 随机乘客生成完成.

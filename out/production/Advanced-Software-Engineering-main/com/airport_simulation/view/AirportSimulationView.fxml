@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:controller="src.main.java.com.airport_simulation.controller.CheckInDeskController" xmlns:fx="http://javafx.com/fxml">
+    <ListView fx:id="checkInDeskInfoListView" />
+    <ListView fx:id="flightInfoListView" />
+</VBox>
