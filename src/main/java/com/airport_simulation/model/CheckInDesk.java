@@ -3,10 +3,7 @@ package src.main.java.com.airport_simulation.model;
 import src.main.java.com.airport_simulation.data_structure.Flight;
 import src.main.java.com.airport_simulation.data_structure.Passenger;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,11 +68,14 @@ public class CheckInDesk implements Runnable {
                     baggageFee = excessWeight * flight.getExcessLuggageCharge();
                 }
                 // 更新乘客的行李费用
-                passenger.setBaggageFee(baggageFee);
+//                passenger.setBaggageFee(baggageFee);
 
                 // 更新Flight对象的状态
                 flight.setCheckedInPassengers(flight.getCheckedInPassengers() + 1); // 增加已办理登机手续的乘客数
                 flight.setCarriedLuggageWeight(flight.getCarriedLuggageWeight() + passenger.getBaggageWeight()); // 增加已承载的行李重量
+
+                // 写入数据
+                updateFlightsCsv();
 
                 // 输出日志或其他处理
                 System.out.println("Passenger " + passenger.getName() + " checked in. Flight: " + flightCode + ". Baggage fee: " + baggageFee);
@@ -101,6 +101,30 @@ public class CheckInDesk implements Runnable {
             }
 
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 假设这个方法在处理完一个乘客后被调用
+    private void updateFlightsCsv() {
+        String csvPath = "src/main/resources/com/airport_simulation/dataset/flights.csv"; // CSV文件的路径
+        try (PrintWriter writer = new PrintWriter(new File(csvPath))) {
+            // 写入文件头
+            writer.println("AirlineName,FreeLuggageAllowance,ExcessLuggageCharge,FlightCode,Destination,LuggageCapacity,CheckedInPassengers,CarriedLuggageWeight");
+            // 遍历flightsData Map，并将每个Flight对象的信息写入文件
+            for (Flight flight : flightsData.values()) {
+                String line = String.join(",",
+                        flight.getAirlineName(),
+                        String.valueOf(flight.getFreeLuggageAllowance()),
+                        String.valueOf(flight.getExcessLuggageCharge()),
+                        flight.getFlightCode(),
+                        flight.getDestination(),
+                        String.valueOf(flight.getLuggageCapacity()),
+                        String.valueOf(flight.getCheckedInPassengers()),
+                        String.valueOf(flight.getCarriedLuggageWeight()));
+                writer.println(line);
+            }
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }

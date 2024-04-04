@@ -1,15 +1,7 @@
-//package src.main.java.com.airport_simulation;
+//package src.main.java.com.airport_simulation_origin;
 //
-//import src.main.java.com.airport_simulation.data_structure.Flight;
-//import src.main.java.com.airport_simulation.data_structure.Passenger;
-//import src.main.java.com.airport_simulation.model.CheckInDesk;
-//import src.main.java.com.airport_simulation.model.PassengerQueue;
-//
-//import java.io.BufferedReader;
-//import java.io.IOException;
-//import java.io.InputStream;
-//import java.io.InputStreamReader;
-//import java.util.*;
+//import src.main.java.com.airport_simulation_origin.model.CheckInDesk;
+//import src.main.java.com.airport_simulation_origin.model.PassengerQueue;
 //
 //public class AirportSimulation {
 //    static {

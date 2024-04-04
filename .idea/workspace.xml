@@ -53,6 +53,8 @@
     "Application.PassengerQueryUI.executor": "Run",
     "Application.PassengerQueueTest.executor": "Run",
     "Application.PassengerQueueUI.executor": "Run",
+    "Application.PassengerQueueUITest.executor": "Run",
+    "Application.PassengerQueueView.executor": "Run",
     "Application.SimulationTest.executor": "Run",
     "Application.src.PassengerDataHandler.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
@@ -62,7 +64,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/program/HW_PG_Project/F21AS/Advanced-Software-Engineering/src/main/java/com/airport_simulation",
+    "last_opened_file_path": "D:/program/HW_PG_Project/F21AS/Advanced-Software-Engineering/src/test/airport_simulation_UI",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
@@ -71,14 +73,19 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\program\HW_PG_Project\F21AS\Advanced-Software-Engineering\src\test\airport_simulation_UI" />
+      <recent name="D:\program\HW_PG_Project\F21AS\Advanced-Software-Engineering\src\main\java\com\airport_simulation_origin" />
+      <recent name="D:\program\HW_PG_Project\F21AS\Advanced-Software-Engineering\src\main\java\com\airport_simulation_UI" />
       <recent name="D:\program\HW_PG_Project\F21AS\Advanced-Software-Engineering\src\main\java\com\airport_simulation" />
       <recent name="D:\program\HW_PG_Project\F21AS\Advanced-Software-Engineering\Datasets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\program\HW_PG_Project\F21AS\Advanced-Software-Engineering\src\main\resources\com\airport_simulation_UI\view" />
+      <recent name="D:\program\HW_PG_Project\F21AS\Advanced-Software-Engineering\src\main\resources\com\airport_simulation_UI" />
       <recent name="D:\program\HW_PG_Project\F21AS\Advanced-Software-Engineering\src\main\resource\com\airport_simulation\dataset" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.AirportSimulation">
+  <component name="RunManager" selected="Application.PassengerQueueView">
     <configuration name="AirportSimulation" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="src.main.java.com.airport_simulation.AirportSimulation" />
       <module name="Advanced-Software-Engineering-main" />
@@ -92,26 +99,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CheckInDeskTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="src.test.CheckInDeskTest" />
+    <configuration name="FlightDataGenerator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="src.main.java.com.airport_simulation.util.FlightDataGenerator" />
       <module name="Advanced-Software-Engineering-main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="src.main.java.com.airport_simulation.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MainApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="src.main.java.com.airport_simulation.view.MainApp" />
-      <module name="Advanced-Software-Engineering-main" />
-      <option name="VM_PARAMETERS" value="--module-path &quot;D:\Install\JAVA\sdk\javafx-sdk-21.0.2\lib&quot; --add-modules javafx.controls,javafx.fxml" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="src.main.java.com.airport_simulation.view.*" />
+          <option name="PATTERN" value="src.main.java.com.airport_simulation.util.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -120,8 +113,9 @@
       </method>
     </configuration>
     <configuration name="PassengerQueueTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="src.test.PassengerQueueTest" />
+      <option name="MAIN_CLASS_NAME" value="src.test.airport_simulation.PassengerQueueTest" />
       <module name="Advanced-Software-Engineering-main" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;D:\Install\JAVA\sdk\javafx-sdk-21.0.2\lib&quot; --add-modules javafx.controls,javafx.fxml " />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="src.main.java.com.airport_simulation.*" />
@@ -132,8 +126,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PassengerQueueUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="src.main.java.com.airport_simulation.view.PassengerQueueUI" />
+    <configuration name="PassengerQueueUITest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="src.test.airport_simulation.PassengerQueueUITest" />
+      <module name="Advanced-Software-Engineering-main" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;D:\Install\JAVA\sdk\javafx-sdk-21.0.2\lib&quot; --add-modules javafx.controls,javafx.fxml" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="src.test.airport_simulation.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PassengerQueueView" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="src.main.java.com.airport_simulation.view.PassengerQueueView" />
       <module name="Advanced-Software-Engineering-main" />
       <option name="VM_PARAMETERS" value="--module-path &quot;D:\Install\JAVA\sdk\javafx-sdk-21.0.2\lib&quot; --add-modules javafx.controls,javafx.fxml" />
       <extension name="coverage">
@@ -147,19 +155,19 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.FlightDataGenerator" />
+      <item itemvalue="Application.PassengerQueueUITest" />
       <item itemvalue="Application.AirportSimulation" />
-      <item itemvalue="Application.CheckInDeskTest" />
-      <item itemvalue="Application.MainApp" />
       <item itemvalue="Application.PassengerQueueTest" />
-      <item itemvalue="Application.PassengerQueueUI" />
+      <item itemvalue="Application.PassengerQueueView" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.AirportSimulation" />
+        <item itemvalue="Application.PassengerQueueView" />
         <item itemvalue="Application.PassengerQueueTest" />
-        <item itemvalue="Application.PassengerQueueUI" />
-        <item itemvalue="Application.MainApp" />
-        <item itemvalue="Application.CheckInDeskTest" />
+        <item itemvalue="Application.FlightDataGenerator" />
+        <item itemvalue="Application.AirportSimulation" />
+        <item itemvalue="Application.PassengerQueueUITest" />
       </list>
     </recent_temporary>
   </component>

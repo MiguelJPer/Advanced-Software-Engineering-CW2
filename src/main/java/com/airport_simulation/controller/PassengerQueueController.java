@@ -1,31 +1,62 @@
 package src.main.java.com.airport_simulation.controller;
 
-import src.main.java.com.airport_simulation.model.PassengerQueue;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.VBox;
 import src.main.java.com.airport_simulation.data_structure.Passenger;
+import src.main.java.com.airport_simulation.model.PassengerQueue;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.List;
+import java.util.stream.Collectors;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 
 public class PassengerQueueController {
-    private PassengerQueue passengerQueue;
-    private Thread passengerQueueThread;
+    @FXML private VBox mainContainer;
+    @FXML private Label queueCountLabel;
+    @FXML private TableView<Passenger> passengerTable;
+    @FXML private TableColumn<Passenger, String> flightCodeColumn;
+    @FXML private TableColumn<Passenger, String> nameColumn;
+    @FXML private TableColumn<Passenger, Double> weightColumn;
+    @FXML private TableColumn<Passenger, String> dimensionsColumn;
 
-    public PassengerQueueController() {
-        Queue<Passenger> queue = new LinkedList<>();
-        this.passengerQueue = new PassengerQueue(queue);
-        this.passengerQueueThread = new Thread(passengerQueue);
+    private PassengerQueue passengerQueue; // 应该被传入的PassengerQueue对象的引用
+
+    @FXML
+    public void initialize() {
+        // 将Passenger属性绑定到表格列
+        flightCodeColumn.setCellValueFactory(cellData -> cellData.getValue().flightCodeProperty());
+        nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        weightColumn.setCellValueFactory(cellData -> cellData.getValue().baggageWeightProperty().asObject());
+        dimensionsColumn.setCellValueFactory(cellData -> cellData.getValue().baggageDimensionsProperty());
+
+        // 启动一个后台线程，定期更新UI
+        Thread updateThread = new Thread(() -> {
+            while (true) {
+                Platform.runLater(() -> {
+                    passengerTable.setItems(passengerQueue.getPassengerList());
+                    queueCountLabel.setText("There are currently " + passengerQueue.getQueueSize() + " people waiting in the queue:");
+                });
+                try {
+                    Thread.sleep(1000); // 每秒更新一次UI
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        updateThread.setDaemon(true);
+        updateThread.start();
     }
 
-    public void startSimulation() {
-        passengerQueueThread.start();
-    }
-
-    public void stopSimulation() {
-        passengerQueue.stopRunning();
-        passengerQueueThread.interrupt();
-    }
-
-    public Queue<Passenger> getCurrentQueue() {
-        return passengerQueue.getQueue();
+    // 用于从外部设置PassengerQueue对象的方法
+    public void setPassengerQueue(PassengerQueue queue) {
+        this.passengerQueue = queue;
     }
 }
+
+
+

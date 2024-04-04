@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.*?>
 
-<VBox fx:controller="src.main.java.com.airport_simulation.controller.PassengerQueueController"
-      xmlns:fx="http://javafx.com/fxml" spacing="10" padding="10">
-    <Label text="Passenger Queue"/>
-    <ListView fx:id="passengerListView"/>
+<VBox fx:id="mainContainer" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.main.java.com.airport_simulation.controller.PassengerQueueController">
+    <Label fx:id="queueCountLabel" text="Current queue count: 0" />
+    <TableView fx:id="passengerTable">
+        <columns>
+            <TableColumn fx:id="flightCodeColumn" text="Flight Code" />
+            <TableColumn fx:id="nameColumn" text="Name" />
+            <TableColumn fx:id="weightColumn" text="Baggage Weight" />
+            <TableColumn fx:id="dimensionsColumn" text="Baggage Dimensions" />
+        </columns>
+    </TableView>
 </VBox>

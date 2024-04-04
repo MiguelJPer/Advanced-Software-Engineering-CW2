@@ -1,21 +1,21 @@
 Airline Name,Free Luggage Allowance,Excess Luggage Charge,Flight Number,Destination,Luggage Capacity,Checked In Passengers,Carried Luggage Weight
-Qatar Airways,40,300,DD577,New York,1906,0,0
-United Airlines,25,150,PL879,Dubai,1643,0,0
-British Airways,20,200,ZE086,New York,1658,0,0
-United Airlines,25,150,PJ575,New York,1046,0,0
-American Airlines,30,100,MM296,Beijing,1173,0,0
-Emirates,35,250,PU900,New York,1808,0,0
-Qatar Airways,40,300,OX245,Tokyo,1517,0,0
-American Airlines,30,100,ZU124,Beijing,1991,0,0
-Qatar Airways,40,300,WI406,Dubai,1964,0,0
-British Airways,20,200,TM520,New York,1186,0,0
-Qatar Airways,40,300,ZV369,London,1519,0,0
-United Airlines,25,150,VR900,Tokyo,1566,0,0
-Qatar Airways,40,300,HL247,Beijing,1635,0,0
-Emirates,35,250,KD869,Tokyo,1286,0,0
-United Airlines,25,150,HQ624,Beijing,1398,0,0
-American Airlines,30,100,KB446,New York,1999,0,0
-Qatar Airways,40,300,DZ732,Beijing,1468,0,0
-Qatar Airways,40,300,MV102,London,1213,0,0
-American Airlines,30,100,EG592,Beijing,1643,0,0
-Qatar Airways,40,300,EC317,Tokyo,1743,0,0
+American Airlines,30,100.00,WO330,London,1535,0,0.00
+Qatar Airways,40,300.00,NZ551,New York,1745,0,0.00
+Emirates,35,250.00,FD995,New York,1210,0,0.00
+British Airways,20,200.00,UO507,Dubai,1715,0,0.00
+Qatar Airways,40,300.00,NT130,Dubai,1578,0,0.00
+British Airways,20,200.00,NX672,London,1878,0,0.00
+Emirates,35,250.00,IO671,Tokyo,1292,0,0.00
+Emirates,35,250.00,GI387,Dubai,1458,0,0.00
+Qatar Airways,40,300.00,VC805,London,1475,0,0.00
+Qatar Airways,40,300.00,CZ397,New York,1715,0,0.00
+American Airlines,30,100.00,KQ684,London,1551,0,0.00
+British Airways,20,200.00,WO606,London,1167,0,0.00
+British Airways,20,200.00,HS162,New York,1918,0,0.00
+Emirates,35,250.00,XZ958,Beijing,1955,0,0.00
+Emirates,35,250.00,AW049,Tokyo,1860,0,0.00
+American Airlines,30,100.00,RD062,Dubai,1037,0,0.00
+Qatar Airways,40,300.00,ZX428,New York,1912,0,0.00
+Emirates,35,250.00,YY453,Beijing,1184,0,0.00
+Qatar Airways,40,300.00,SZ808,New York,1123,0,0.00
+United Airlines,25,150.00,MC251,London,1105,0,0.00
