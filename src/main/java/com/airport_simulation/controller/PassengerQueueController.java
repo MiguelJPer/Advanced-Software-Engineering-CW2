@@ -16,25 +16,25 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 public class PassengerQueueController {
-    @FXML private VBox mainContainer;
-    @FXML private Label queueCountLabel;
-    @FXML private TableView<Passenger> passengerTable;
-    @FXML private TableColumn<Passenger, String> flightCodeColumn;
-    @FXML private TableColumn<Passenger, String> nameColumn;
-    @FXML private TableColumn<Passenger, Double> weightColumn;
-    @FXML private TableColumn<Passenger, String> dimensionsColumn;
+    @FXML private VBox mainContainer; // The main container for UI components related to the passenger queue.
+    @FXML private Label queueCountLabel; // A label to display the current number of passengers in the queue.
+    @FXML private TableView<Passenger> passengerTable; // A table to display detailed information about passengers.
+    @FXML private TableColumn<Passenger, String> flightCodeColumn; // Column for displaying passengers' flight codes.
+    @FXML private TableColumn<Passenger, String> nameColumn; // Column for displaying passengers' names.
+    @FXML private TableColumn<Passenger, Double> weightColumn; // Column for displaying passengers' baggage weight.
+    @FXML private TableColumn<Passenger, String> dimensionsColumn; // Column for displaying passengers' baggage dimensions.
 
-    private PassengerQueue passengerQueue; // 应该被传入的PassengerQueue对象的引用
+    private PassengerQueue passengerQueue; // A reference to the PassengerQueue object that should be passed in.
 
     @FXML
     public void initialize() {
-        // 将Passenger属性绑定到表格列
+        // Bind Passenger properties to the table columns.
         flightCodeColumn.setCellValueFactory(cellData -> cellData.getValue().flightCodeProperty());
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
         weightColumn.setCellValueFactory(cellData -> cellData.getValue().baggageWeightProperty().asObject());
         dimensionsColumn.setCellValueFactory(cellData -> cellData.getValue().baggageDimensionsProperty());
 
-        // 启动一个后台线程，定期更新UI
+        // Start a background thread to periodically update the UI.
         Thread updateThread = new Thread(() -> {
             while (true) {
                 Platform.runLater(() -> {
@@ -42,21 +42,18 @@ public class PassengerQueueController {
                     queueCountLabel.setText("There are currently " + passengerQueue.getQueueSize() + " people waiting in the queue:");
                 });
                 try {
-                    Thread.sleep(1000); // 每秒更新一次UI
+                    Thread.sleep(1000); // Update the UI every second.
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         });
-        updateThread.setDaemon(true);
+        updateThread.setDaemon(true); // Set the thread as a daemon so it doesn't prevent the application from exiting.
         updateThread.start();
     }
 
-    // 用于从外部设置PassengerQueue对象的方法
+    // Method to set the PassengerQueue object from outside.
     public void setPassengerQueue(PassengerQueue queue) {
         this.passengerQueue = queue;
     }
 }
-
-
-

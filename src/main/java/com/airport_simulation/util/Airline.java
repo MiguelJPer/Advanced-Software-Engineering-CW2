@@ -5,14 +5,12 @@ public class Airline {
     private int freeLuggageAllowance;
     private double excessLuggageCharge;
 
-    // 构造函数
     public Airline(String name, int freeLuggageAllowance, double excessLuggageCharge) {
         this.name = name;
         this.freeLuggageAllowance = freeLuggageAllowance;
         this.excessLuggageCharge = excessLuggageCharge;
     }
 
-    // Getter 和 Setter 方法
     public String getName() {
         return name;
     }

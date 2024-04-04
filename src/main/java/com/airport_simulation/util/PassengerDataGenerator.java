@@ -13,7 +13,7 @@ public class PassengerDataGenerator {
     public static void generatePassengerData(int numPassengers) {
         Random random = new Random();
         try {
-            FileWriter fw = new FileWriter("resource/passengerList.csv");
+            FileWriter fw = new FileWriter("src/main/resources/com/airport_simulation/dataset/passengerList.csv");
             BufferedWriter bw = new BufferedWriter(fw);
 
             for (int i = 0; i < numPassengers; i++) {

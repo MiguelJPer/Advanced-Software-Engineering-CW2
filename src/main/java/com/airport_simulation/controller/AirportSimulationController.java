@@ -12,13 +12,13 @@ import src.main.java.com.airport_simulation.model.PassengerQueue;
 public class AirportSimulationController {
 
     @FXML
-    private ListView<String> checkInDeskListView; // 登机口信息列表视图
+    private ListView<String> checkInDeskListView; // ListView for check-in desk information
 
     @FXML
-    private ListView<String> flightInfoListView; // 航班信息列表视图
+    private ListView<String> flightInfoListView; // ListView for flight information
 
     @FXML
-    private ListView<String> passengerQueueListView; // UI组件，用于显示乘客队列信息
+    private ListView<String> passengerQueueListView; // UI component for displaying passenger queue information
 
     private ObservableList<String> checkInDeskMessages = FXCollections.observableArrayList();
     private ObservableList<String> flightInfoForDisplay = FXCollections.observableArrayList();
@@ -28,7 +28,7 @@ public class AirportSimulationController {
         checkInDeskListView.setItems(checkInDeskMessages);
         flightInfoListView.setItems(flightInfoForDisplay);
         passengerQueueListView.setItems(passengerQueueInfo);
-        // 模拟启动逻辑和线程启动代码，在这里简化展示
+        // Simplified presentation of simulation startup logic and thread startup code
         startSimulation();
     }
 
@@ -36,55 +36,60 @@ public class AirportSimulationController {
         ObservableList<Passenger> passengerList = FXCollections.observableArrayList();
         PassengerQueue passengerQueue = new PassengerQueue(passengerList);
 
+        // Sets a callback for when a new passenger is added to the queue
         passengerQueue.setOnNewPassenger(passenger -> {
             String passengerInfo = formatPassengerInfo(passenger);
+            // Ensures updates to the UI are made on the JavaFX Application Thread
             Platform.runLater(() -> checkInDeskMessages.add(passengerInfo));
         });
 
+        // Initializes and starts threads for each CheckInDesk
         for (int i = 0; i < 2; i++) {
             CheckInDesk checkInDesk = new CheckInDesk(passengerList);
+            // Registers callback for processing passengers
             checkInDesk.setOnPassengerProcessed(this::updateUIWithPassengerInfo);
+            // Registers callback for flight updates
             checkInDesk.setOnFlightUpdate(flightInfo -> Platform.runLater(() -> flightInfoForDisplay.add(flightInfo)));
 
             new Thread(checkInDesk, "CheckInDesk-" + i).start();
         }
     }
 
-    // 格式化乘客信息的方法
+    // Method to format passenger information for display
     private String formatPassengerInfo(Passenger passenger) {
-        // 格式化乘客信息，例如姓名和航班号
+        // Formats passenger information, such as name and flight code
         return passenger.getName() + " - " + passenger.getFlightCode();
     }
 
-    // 更新UI显示的乘客信息
+    // Updates UI to display passenger information
     public void updateUIWithPassengerInfo(String message) {
+        // Schedules the UI update to run on the JavaFX Application Thread
         Platform.runLater(() -> checkInDeskMessages.add(message));
     }
 
     private void updateUIWithFlightInfo(String flightInfo) {
+        // Schedules the UI update to run on the JavaFX Application Thread
         Platform.runLater(() -> flightInfoForDisplay.add(flightInfo));
     }
 
-    // 绑定登机口信息到UI
+    // Binds check-in desk information to the UI
     public void bindCheckInDesks(ObservableList<String> messages) {
         checkInDeskListView.setItems(messages);
     }
 
-    // 绑定航班信息到UI
+    // Binds flight information to the UI
     public void bindFlightInfo(ObservableList<String> flightInfo) {
         flightInfoListView.setItems(flightInfo);
     }
 
-    // 方法：绑定PassengerQueue信息到UI
+    // Method to bind PassengerQueue information to the UI
     public void bindPassengerQueue(ObservableList<Passenger> passengerQueue) {
         passengerQueue.forEach(passenger -> {
-            String passengerInfo = formatPassengerInfo(passenger); // 假设这个方法将Passenger对象格式化为字符串
-            passengerQueueInfo.add(passengerInfo); // 将格式化后的乘客信息添加到UI列表中
+            String passengerInfo = formatPassengerInfo(passenger); // Assumes this method formats the Passenger object into a string
+            passengerQueueInfo.add(passengerInfo); // Adds the formatted passenger information to the UI list
         });
 
-        // 监听PassengerQueue的变化，每当有新乘客加入时更新UI
-        // 注意：这里的实现依赖于PassengerQueue中有方法或机制可以通知外部乘客加入事件，具体实现可能需要调整
+        // Listens for changes in PassengerQueue, updating the UI whenever a new passenger joins
     }
 
-    // 根据需要添加其他必要的方法和逻辑
 }

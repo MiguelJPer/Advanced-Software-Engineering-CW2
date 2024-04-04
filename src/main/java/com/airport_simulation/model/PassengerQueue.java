@@ -16,54 +16,56 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Logger;
 
 public class PassengerQueue implements Runnable {
-    private ObservableList<Passenger> passengers = FXCollections.observableArrayList();
-    private static final Logger logger = Logger.getLogger(PassengerQueue.class.getName());
-    private boolean running;
-    private Random random = new Random();
-    private List<String> flightCodes;
-    private AtomicBoolean isFlightCodesLoaded = new AtomicBoolean(false);
+    private ObservableList<Passenger> passengers = FXCollections.observableArrayList(); // List to hold the passengers in the queue.
+    private static final Logger logger = Logger.getLogger(PassengerQueue.class.getName()); // Logger for logging status messages.
+    private boolean running; // Indicates if the PassengerQueue thread should continue running.
+    private Random random = new Random(); // Random generator for simulating passenger arrival times and details.
+    private List<String> flightCodes; // List to hold flight codes for generating random passengers.
+    private AtomicBoolean isFlightCodesLoaded = new AtomicBoolean(false); // Atomic flag to ensure flight codes are loaded only once.
 
-    // 原有构造函数保持不变，为了向后兼容
+    // Original constructor remains unchanged for backward compatibility
     public PassengerQueue() {
-        this(FXCollections.observableArrayList()); // 调用下面的新构造函数，使用空的ObservableList初始化
+        this(FXCollections.observableArrayList()); // Calls the new constructor with an empty ObservableList for initialization.
     }
 
-    // 新的构造函数，接受外部传入的ObservableList<Passenger>
+    // New constructor that accepts an external ObservableList<Passenger>
     public PassengerQueue(ObservableList<Passenger> passengers) {
         this.passengers = passengers;
         this.running = true;
         this.flightCodes = new ArrayList<>();
-        logger.info("PassengerQueue 初始化");
+        logger.info("PassengerQueue initialized");
     }
 
     @Override
     public void run() {
-        logger.info("PassengerQueue 开始运行.");
+        logger.info("PassengerQueue started running.");
         while (running) {
             try {
-                Thread.sleep(random.nextInt(2000) + 500); // Randomly wait between 500 and 1500 milliseconds
+                Thread.sleep(random.nextInt(2000) + 500); // Randomly waits between 500 and 2500 milliseconds before generating a new passenger.
                 if (flightCodes.isEmpty()) {
-                    loadFlightCodes(); // Ensure flight codes are loaded
+                    loadFlightCodes(); // Ensures flight codes are loaded before generating passengers.
                 }
                 Passenger passenger = generateRandomPassenger();
-                Platform.runLater(() -> passengers.add(passenger)); // Directly modify the ObservableList on the JavaFX thread
+                // Updates the ObservableList of passengers on the JavaFX thread.
+                Platform.runLater(() -> passengers.add(passenger));
             } catch (InterruptedException e) {
                 logger.info("PassengerQueue thread interrupted.");
                 running = false;
             }
         }
-        logger.info("PassengerQueue 停止运行.");
+        logger.info("PassengerQueue stopped running.");
     }
 
     private void loadFlightCodes() {
+        // Loads flight codes from a CSV file if not already loaded. Ensures this happens only once.
         if (isFlightCodesLoaded.compareAndSet(false, true)) {
             try (InputStream is = getClass().getResourceAsStream("/com/airport_simulation/dataset/flights.csv");
                  BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
-                reader.readLine(); // Skip the header row
+                reader.readLine(); // Skips the header row in the CSV.
                 String line;
                 while ((line = reader.readLine()) != null) {
                     String[] data = line.split(",");
-                    flightCodes.add(data[0]); // Assuming the flight code is the first column
+                    flightCodes.add(data[0]); // Assumes the flight code is in the first column.
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -72,29 +74,24 @@ public class PassengerQueue implements Runnable {
     }
 
     private Passenger generateRandomPassenger() {
-        logger.info("开始生成随机乘客...");
-        if (flightCodes.isEmpty()) {
-            loadFlightCodes(); // 确保航班代码已加载
-        }
-
+        // Generates a random passenger using the loaded flight codes.
+        logger.info("Generating random passenger...");
         if (!flightCodes.isEmpty()) {
-            // 现在可以安全地获取随机航班代码
             String flightCode = flightCodes.get(random.nextInt(flightCodes.size()));
-            String name = "Passenger" + (random.nextInt(900) + 100); // Generates a name like "Passenger123"
-            double baggageWeight = 20.0 + (20.0 * random.nextDouble()); // Generates a weight between 20.0 to 40.0
+            String name = "Passenger" + (random.nextInt(900) + 100); // Generates a name like "Passenger123".
+            double baggageWeight = 20.0 + (20.0 * random.nextDouble()); // Generates a baggage weight between 20.0 and 40.0.
             double[] baggageDimensions = {
-                    20.0 + (10.0 * random.nextDouble()), // Length between 20.0 to 30.0
-                    15.0 + (5.0 * random.nextDouble()),  // Width between 15.0 to 20.0
-                    10.0 + (5.0 * random.nextDouble())   // Height between 10.0 to 15.0
+                    20.0 + (10.0 * random.nextDouble()), // Length between 20.0 and 30.0.
+                    15.0 + (5.0 * random.nextDouble()),  // Width between 15.0 and 20.0.
+                    10.0 + (5.0 * random.nextDouble())   // Height between 10.0 and 15.0.
             };
-            logger.info("随机乘客生成完成.");
+            logger.info("Random passenger generated.");
             return new Passenger(flightCode, name, baggageWeight, baggageDimensions);
         } else {
-            logger.warning("航班代码列表为空，无法生成随机乘客。");
-            return null; // 或者返回一个默认的乘客实例，或者抛出一个异常
+            logger.warning("Flight code list is empty, cannot generate random passenger.");
+            return null; // Or return a default passenger instance or throw an exception.
         }
     }
-
 
     public ObservableList<Passenger> getPassengerList() {
         return passengers;
@@ -113,7 +110,7 @@ public class PassengerQueue implements Runnable {
     }
 
     public synchronized void addPassengerDirectly(Passenger passenger) {
-        this.passengers.add(passenger); // 直接添加乘客到ObservableList
+        this.passengers.add(passenger); // Directly adds a passenger to the ObservableList.
     }
 
 }

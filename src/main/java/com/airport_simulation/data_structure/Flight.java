@@ -18,8 +18,8 @@ public class Flight {
         this.flightCode = flightCode;
         this.destination = destination;
         this.luggageCapacity = luggageCapacity;
-        this.checkedInPassengers = 0; // 默认值
-        this.carriedLuggageWeight = 0; // 默认值
+        this.checkedInPassengers = 0;
+        this.carriedLuggageWeight = 0;
     }
 
     // Getter 和 Setter 方法

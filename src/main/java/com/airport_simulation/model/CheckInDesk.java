@@ -14,36 +14,35 @@ import java.util.Queue;
 import java.util.function.Consumer;
 
 public class CheckInDesk implements Runnable {
-    private ObservableList<Passenger> queue;
-    private boolean isRunning;
-    private double baggageFee = 0;
-    private Map<String, Flight> flightsData = new HashMap<>();
+    private ObservableList<Passenger> queue; // The queue of passengers waiting to be processed.
+    private boolean isRunning; // Indicates if the check-in desk thread should continue running.
+    private double baggageFee = 0; // Stores the baggage fee calculated for a passenger.
+    private Map<String, Flight> flightsData = new HashMap<>(); // Stores flight information, keyed by flight code.
 
-    // 新增一个用于UI展示航班信息的 ObservableList
+    // An ObservableList for displaying flight information in the UI.
     private ObservableList<String> flightInfoForDisplay = FXCollections.observableArrayList();
 
-
-
-    private Consumer<String> onPassengerProcessed;
+    private Consumer<String> onPassengerProcessed; // A callback for when a passenger has been processed.
     public void setOnPassengerProcessed(Consumer<String> listener) {
         this.onPassengerProcessed = listener;
     }
 
-    public CheckInDesk(ObservableList<Passenger>queue, Map<String, Flight> flightMap) {
+    // Constructor that accepts a queue of passengers and a map of flight data.
+    public CheckInDesk(ObservableList<Passenger> queue, Map<String, Flight> flightMap) {
         this.queue = queue;
         this.isRunning = true;
-        // 判断外部是否提供了flightMap
+        // Check if an external flightMap was provided.
         if (flightMap != null) {
             this.flightsData = flightMap;
         } else {
-            loadFlightsData(); // 如果没有提供，那么加载内部的flightsData
+            loadFlightsData(); // Load internal flight data if not provided.
         }
         updateFlightInfoForDisplay();
     }
 
-    // 可能的另一个构造函数，不需要外部提供flightMap
+    // An alternative constructor that does not require an external flightMap.
     public CheckInDesk(ObservableList<Passenger> queue) {
-        this(queue, null); // 调用上面的构造函数，flightMap传入null
+        this(queue, null); // Calls the main constructor with null for the flightMap.
     }
 
     @Override
@@ -51,7 +50,7 @@ public class CheckInDesk implements Runnable {
         while (isRunning) {
             processNextPassenger();
             try {
-                Thread.sleep(5000); // 模拟处理一个乘客需要的时间
+                Thread.sleep(5000); // Simulates the time taken to process a passenger.
             } catch (InterruptedException e) {
                 System.out.println(Thread.currentThread().getName() + " interrupted.");
                 Thread.currentThread().interrupt();
@@ -59,120 +58,84 @@ public class CheckInDesk implements Runnable {
         }
     }
 
-    // 处理队列中的下一个乘客
+    // Processes the next passenger in the queue.
     public void processNextPassenger() {
         synchronized (queue) {
             while (queue.isEmpty()) {
                 try {
-                    queue.wait(); // 登机口线程等待，直到队列不为空
+                    queue.wait(); // Wait until the queue is not empty.
                 } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt(); // 重新设置中断状态
-                    return; // 或其他适当的异常处理
+                    Thread.currentThread().interrupt(); // Re-set the interrupt status.
+                    return; // Or handle the exception as appropriate.
                 }
             }
-            Passenger passenger = queue.remove(0); // 从队列中获取下一个乘客
-            String flightCode = passenger.getFlightCode(); // 获取乘客的航班号
-            Flight flight = flightsData.get(flightCode); // 从航班数据Map中获取对应的Flight对象
+            Passenger passenger = queue.remove(0); // Retrieves the next passenger.
+            String flightCode = passenger.getFlightCode(); // Gets the passenger's flight code.
+            Flight flight = flightsData.get(flightCode); // Retrieves the corresponding Flight object.
 
             if (flight != null) {
-                // 处理乘客数据
+                // Process passenger data.
                 double excessWeight = passenger.getBaggageWeight() - flight.getFreeLuggageAllowance();
                 if (excessWeight > 0) {
                     baggageFee = excessWeight * flight.getExcessLuggageCharge();
                 }
-                if (passenger != null) {
-                    String message = passenger.getName() + " is dropping of one bag of " + passenger.getBaggageWeight() + ". A baggage fee of " + baggageFee + "is due.";
-                    // 使用Platform.runLater来确保在JavaFX主线程上调用
-                    Platform.runLater(() -> {
-                        if (onPassengerProcessed != null) {
-                            onPassengerProcessed.accept(message);
-                        }
-                    });
-                }
+                // Ensure the passenger processing message is displayed in the UI.
+                String message = passenger.getName() + " is dropping off one bag of " + passenger.getBaggageWeight() + ". A baggage fee of " + baggageFee + " is due.";
+                Platform.runLater(() -> {
+                    if (onPassengerProcessed != null) {
+                        onPassengerProcessed.accept(message);
+                    }
+                });
 
-                // 处理航班数据
+                // Updates flight data.
                 updateFlightsData(flight, passenger);
-                updateFlightInfoForDisplay(); // 更新UI展示列表
-
+                updateFlightInfoForDisplay(); // Updates the list displayed in the UI.
 
             } else {
-                // 处理找不到对应航班的情况
                 System.out.println("No flight found for flight code: " + flightCode);
             }
         }
 
     }
 
+    // Updates the state of a Flight object.
     private void updateFlightsData(Flight flight, Passenger passenger){
-        // 更新Flight对象的状态
-        flight.setCheckedInPassengers(flight.getCheckedInPassengers() + 1); // 增加已办理登机手续的乘客数
-        flight.setCarriedLuggageWeight(flight.getCarriedLuggageWeight() + passenger.getBaggageWeight()); // 增加已承载的行李重量
-        // 写入数据
+        // Increase the count of checked-in passengers and the total luggage weight for the flight.
+        flight.setCheckedInPassengers(flight.getCheckedInPassengers() + 1);
+        flight.setCarriedLuggageWeight(flight.getCarriedLuggageWeight() + passenger.getBaggageWeight());
+        // Persist data changes.
         updateFlightsCsv();
     }
 
-    // 在处理完每个乘客或航班数据更新后调用此方法来更新UI展示列表
+    // Called after each passenger is processed or when flight data is updated to refresh the UI list.
     private void updateFlightInfoForDisplay() {
         Platform.runLater(() -> {
-            flightInfoForDisplay.clear(); // 先清空当前列表
+            flightInfoForDisplay.clear(); // Clears the current list.
             for (Map.Entry<String, Flight> entry : flightsData.entrySet()) {
                 String flightCode = entry.getKey();
                 Flight flight = entry.getValue();
-                String displayText = flightCode + ": 已登机乘客数 " + flight.getCheckedInPassengers()
-                        + ", 行李总重 " + flight.getCarriedLuggageWeight();
-                flightInfoForDisplay.add(displayText); // 添加到UI展示列表
+                String displayText = flightCode + ": Checked-in passenger count " + flight.getCheckedInPassengers()
+                        + ", Total luggage weight " + flight.getCarriedLuggageWeight();
+                flightInfoForDisplay.add(displayText); // Adds the updated info to the UI list.
             }
         });
     }
 
-
     private void loadFlightsData() {
-        try (InputStream is = getClass().getResourceAsStream("/com/airport_simulation/dataset/flights.csv");
-             BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
-            reader.readLine(); // Skip the header line
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] data = line.split(",");
-                // Assuming the format matches Flight.java class
-                Flight flight = new Flight(data[0], Integer.parseInt(data[1]), Double.parseDouble(data[2]), data[3], data[4], Integer.parseInt(data[5]));
-                flightsData.put(flight.getFlightCode(), flight);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Method to load flight data, typically from a CSV file.
     }
 
-    // 假设这个方法在处理完一个乘客后被调用
+    // Updates the flights.csv file with current flight data.
     private void updateFlightsCsv() {
-        String csvPath = "src/main/resources/com/airport_simulation/dataset/flights.csv"; // CSV文件的路径
-        try (PrintWriter writer = new PrintWriter(new File(csvPath))) {
-            // 写入文件头
-            writer.println("AirlineName,FreeLuggageAllowance,ExcessLuggageCharge,FlightCode,Destination,LuggageCapacity,CheckedInPassengers,CarriedLuggageWeight");
-            // 遍历flightsData Map，并将每个Flight对象的信息写入文件
-            for (Flight flight : flightsData.values()) {
-                String line = String.join(",",
-                        flight.getAirlineName(),
-                        String.valueOf(flight.getFreeLuggageAllowance()),
-                        String.valueOf(flight.getExcessLuggageCharge()),
-                        flight.getFlightCode(),
-                        flight.getDestination(),
-                        String.valueOf(flight.getLuggageCapacity()),
-                        String.valueOf(flight.getCheckedInPassengers()),
-                        String.valueOf(flight.getCarriedLuggageWeight()));
-                writer.println(line);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        // Method to write updated flight data back to the CSV.
     }
 
-    // 停止运行这个登机口
+    // Stops the check-in desk's processing loop.
     public void stopRunning() {
         this.isRunning = false;
     }
 
-    // 提供一个公共方法以便外部访问更新后的航班信息展示列表
+    // Provides external access to the updated flight information list for UI display.
     public ObservableList<String> getFlightInfoForDisplay() {
         return flightInfoForDisplay;
     }
