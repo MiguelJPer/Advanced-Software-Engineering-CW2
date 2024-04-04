@@ -88,7 +88,7 @@
       <recent name="D:\program\HW_PG_Project\F21AS\Advanced-Software-Engineering\src\main\resource\com\airport_simulation\dataset" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.PassengerQueueView">
+  <component name="RunManager" selected="Application.AirportSimulationView">
     <configuration name="AirportSimulation" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="src.main.java.com.airport_simulation.model.AirportSimulation" />
       <module name="Advanced-Software-Engineering-main" />
@@ -166,8 +166,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.PassengerQueueView" />
         <item itemvalue="Application.AirportSimulationView" />
+        <item itemvalue="Application.PassengerQueueView" />
         <item itemvalue="Application.AirportSimulation" />
         <item itemvalue="Application.PassengerQueueTest" />
         <item itemvalue="Application.FlightDataGenerator" />

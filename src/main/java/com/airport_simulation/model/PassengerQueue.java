@@ -13,10 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 import java.util.logging.Logger;
 
 public class PassengerQueue implements Runnable {
     private ObservableList<Passenger> passengers = FXCollections.observableArrayList(); // List to hold the passengers in the queue.
+    private Consumer<Passenger> onNewPassengerCallback;
     private static final Logger logger = Logger.getLogger(PassengerQueue.class.getName()); // Logger for logging status messages.
     private boolean running; // Indicates if the PassengerQueue thread should continue running.
     private Random random = new Random(); // Random generator for simulating passenger arrival times and details.
@@ -34,6 +36,10 @@ public class PassengerQueue implements Runnable {
         this.running = true;
         this.flightCodes = new ArrayList<>();
         logger.info("PassengerQueue initialized");
+    }
+
+    public void setOnNewPassenger(Consumer<Passenger> callback) {
+        this.onNewPassengerCallback = callback;
     }
 
     @Override
@@ -111,6 +117,13 @@ public class PassengerQueue implements Runnable {
 
     public synchronized void addPassengerDirectly(Passenger passenger) {
         this.passengers.add(passenger); // Directly adds a passenger to the ObservableList.
+    }
+
+    public void addNewPassenger(Passenger passenger) {
+        passengers.add(passenger);
+        if (onNewPassengerCallback != null) {
+            onNewPassengerCallback.accept(passenger);
+        }
     }
 
 }

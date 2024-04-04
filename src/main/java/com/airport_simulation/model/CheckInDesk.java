@@ -21,6 +21,7 @@ public class CheckInDesk implements Runnable {
 
     // An ObservableList for displaying flight information in the UI.
     private ObservableList<String> flightInfoForDisplay = FXCollections.observableArrayList();
+    private Consumer<String> onFlightUpdateCallback;
 
     private Consumer<String> onPassengerProcessed; // A callback for when a passenger has been processed.
     public void setOnPassengerProcessed(Consumer<String> listener) {
@@ -43,6 +44,10 @@ public class CheckInDesk implements Runnable {
     // An alternative constructor that does not require an external flightMap.
     public CheckInDesk(ObservableList<Passenger> queue) {
         this(queue, null); // Calls the main constructor with null for the flightMap.
+    }
+
+    public void setOnFlightUpdate(Consumer<String> callback) {
+        this.onFlightUpdateCallback = callback;
     }
 
     @Override
@@ -122,12 +127,42 @@ public class CheckInDesk implements Runnable {
     }
 
     private void loadFlightsData() {
-        // Method to load flight data, typically from a CSV file.
+        try (InputStream is = getClass().getResourceAsStream("/com/airport_simulation/dataset/flights.csv");
+             BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+            reader.readLine(); // Skip the header line
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+                // Assuming the format matches Flight.java class
+                Flight flight = new Flight(data[0], Integer.parseInt(data[1]), Double.parseDouble(data[2]), data[3], data[4], Integer.parseInt(data[5]));
+                flightsData.put(flight.getFlightCode(), flight);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // Updates the flights.csv file with current flight data.
     private void updateFlightsCsv() {
-        // Method to write updated flight data back to the CSV.
+        String csvPath = "src/main/resources/com/airport_simulation/dataset/flights.csv";
+        try (PrintWriter writer = new PrintWriter(new File(csvPath))) {
+            writer.println("AirlineName,FreeLuggageAllowance,ExcessLuggageCharge,FlightCode,Destination,LuggageCapacity,CheckedInPassengers,CarriedLuggageWeight");
+            for (Flight flight : flightsData.values()) {
+                String line = String.join(",",
+                        flight.getAirlineName(),
+                        String.valueOf(flight.getFreeLuggageAllowance()),
+                        String.valueOf(flight.getExcessLuggageCharge()),
+                        flight.getFlightCode(),
+                        flight.getDestination(),
+                        String.valueOf(flight.getLuggageCapacity()),
+                        String.valueOf(flight.getCheckedInPassengers()),
+                        String.valueOf(flight.getCarriedLuggageWeight()));
+                writer.println(line);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     // Stops the check-in desk's processing loop.

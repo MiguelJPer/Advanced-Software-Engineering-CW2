@@ -24,7 +24,7 @@ public class FlightDataGenerator {
             Airline airline = airlines.get(new Random().nextInt(airlines.size()));
             String flightNumber = generateFlightNumber();
             String destination = destinations[new Random().nextInt(destinations.length)];
-            int luggageCapacity = 1000 + new Random().nextInt(1000); // 假定行李容量为1000至2000之间
+            int luggageCapacity = 1000 + new Random().nextInt(1000); // Assuming luggage capacity is between 1000 and 2000
 
             flights.add(new Flight(airline.getName(), airline.getFreeLuggageAllowance(), airline.getExcessLuggageCharge(), flightNumber, destination, luggageCapacity));
         }

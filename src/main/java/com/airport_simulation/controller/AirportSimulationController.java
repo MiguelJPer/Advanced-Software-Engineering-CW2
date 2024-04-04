@@ -32,7 +32,7 @@ public class AirportSimulationController {
         startSimulation();
     }
 
-    private void startSimulation() {
+    public void startSimulation() {
         ObservableList<Passenger> passengerList = FXCollections.observableArrayList();
         PassengerQueue passengerQueue = new PassengerQueue(passengerList);
 
@@ -44,7 +44,7 @@ public class AirportSimulationController {
         });
 
         // Initializes and starts threads for each CheckInDesk
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 5; i++) {
             CheckInDesk checkInDesk = new CheckInDesk(passengerList);
             // Registers callback for processing passengers
             checkInDesk.setOnPassengerProcessed(this::updateUIWithPassengerInfo);
@@ -58,7 +58,7 @@ public class AirportSimulationController {
     // Method to format passenger information for display
     private String formatPassengerInfo(Passenger passenger) {
         // Formats passenger information, such as name and flight code
-        return passenger.getName() + " - " + passenger.getFlightCode();
+        return passenger.getName() + " - " + passenger.getFlightCode() + " - " + passenger.getBaggageWeight() + " - " + passenger.getBaggageDimensions();
     }
 
     // Updates UI to display passenger information
@@ -73,9 +73,16 @@ public class AirportSimulationController {
     }
 
     // Binds check-in desk information to the UI
-    public void bindCheckInDesks(ObservableList<String> messages) {
-        checkInDeskListView.setItems(messages);
+    public void bindCheckInDesks(ObservableList<CheckInDesk> desks) {
+        // Update UI with CheckInDesk objects
+        // You can iterate through desks and extract necessary information to display in the UI
+        // For example:
+        for (CheckInDesk desk : desks) {
+            String deskInfo = "CheckInDesk - " + desk.getFlightInfoForDisplay(); // Assuming CheckInDesk has an id or other identifier
+            checkInDeskListView.getItems().add(deskInfo);
+        }
     }
+
 
     // Binds flight information to the UI
     public void bindFlightInfo(ObservableList<String> flightInfo) {
